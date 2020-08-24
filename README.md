@@ -1,2 +1,2 @@
 # Solvability-SourceCode
-Code base for solvability problem.
+Code base for the neural network implementation.
