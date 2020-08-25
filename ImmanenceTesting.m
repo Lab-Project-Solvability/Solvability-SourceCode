@@ -3,13 +3,14 @@
 %%  Initialisation
 shapeCollection = [];
 % Shapes U 
-% U = [];
+U = [];
 % Calculated Volume : N(T(u))
-VtoX = [];
+V = [];
 % Data points : M(u)
 W = [];
 % Array to check immanence
 WtoX = [];
+VtoX = [];
 
 immanence = false;
 
@@ -19,6 +20,10 @@ immanence = false;
 % Generation:
 shapeCollection = createImmanentDataset(100, 20);
 
+for i = 1:size(shapeCollection,2)
+   U(i) = shapeCollection(i).form; 
+   V(i) = shapeCollection(i).targetVolume;
+end
 %% Prof Theory
 
 % Get struct values that are unique
@@ -51,7 +56,7 @@ end
 % that is an element of N(T(U)) such that T(pre-image of M(w)) is a sub-element
 % or equal to pre-image of N(x)
 
-isSubset = all(ismember(WtoX, VtoX))
+isSubset = all(ismember(WtoX, VtoX));
 
 % If T(M^-1(w)) is a subset of N^-1(x), then immanence is depicted
 
