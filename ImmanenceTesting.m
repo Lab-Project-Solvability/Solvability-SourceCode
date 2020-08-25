@@ -5,11 +5,11 @@ shapeCollection = [];
 % Shapes
 % U = [];
 % Actual Volume : T(U)
-V = [];
+VtoX = [];
 % Data points : M(u)
 W = [];
 % Calculated Volume : N(T(u))
-X = [];
+WtoX = [];
 
 immanence = false;
 
@@ -17,7 +17,7 @@ immanence = false;
 
 % Generate random numbers between 0 and 20 for the shgape dimensions and Struct
 % Generation:
-shapeCollection = createImmanentDataset(100, 20)
+shapeCollection = createImmanentDataset(100, 20);
 
 %% Prof Theory
 
@@ -26,18 +26,18 @@ temp = uniqueStruct(shapeCollection);
 
 % Get bubbles
 for i = 1:size(temp,2)
-    V(i) = temp(i).targetVolume;
+    VtoX(i) = temp(i).targetVolume;
     
     W(i).x = temp(i).length;
     W(i).y = temp(i).width;
     W(i).z = temp(i).height;
     
-    X(i) = W(i).x* W(i).y.* W(i).z;
+    WtoX(i) = W(i).x* W(i).y.* W(i).z;
     
 end
 
 %% Test for immanence
-if X(j) == V(j)
+if WtoX(j) == VtoX(j)
     immanence = true;
 end
 
@@ -87,7 +87,7 @@ for i=1:numel(oldStruct)
     for j=1:numel(newStruct)
         if isequaln(temp, newStruct(j))
             if isequal(temp.form, newStruct(j).form)
-            skipFlag=1;
+                skipFlag=1;
             end
         end
     end
