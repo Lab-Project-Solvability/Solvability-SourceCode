@@ -1,0 +1,12 @@
+%% Create Rectangular Cuboids
+
+% Generate random numbers between 0 and 70 for the rectangles and Struct
+% Generation:
+shapeCollection = 
+for i = 0:60
+    shape.length = 70 .* rand()
+    shape.width = 70 .* rand()
+    shape.height = 70 .* rand()
+    shape.form = 'Rectangular Cuboid'
+    
+end
