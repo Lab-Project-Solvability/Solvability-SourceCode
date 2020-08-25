@@ -2,13 +2,13 @@
 
 %%  Initialisation
 shapeCollection = [];
-% Shapes
+% Shapes U 
 % U = [];
-% Actual Volume : T(U)
+% Calculated Volume : N(T(u))
 VtoX = [];
 % Data points : M(u)
 W = [];
-% Calculated Volume : N(T(u))
+% Array to check immanence
 WtoX = [];
 
 immanence = false;
@@ -25,23 +25,37 @@ shapeCollection = createImmanentDataset(100, 20);
 temp = uniqueStruct(shapeCollection);
 
 % Get bubbles
+
+% ShapeCollection.form = U
+% ShapeCollection.targetVolume = V
+
+
 for i = 1:size(temp,2)
+    
+    % Since N is the identity map, V = X, but only the unique ones 
     VtoX(i) = temp(i).targetVolume;
     
+    % M(u) = W, but only unique points would be mapped
     W(i).x = temp(i).length;
     W(i).y = temp(i).width;
     W(i).z = temp(i).height;
     
+    % S = N(T(pre-image of M(w))) = N(T(u)) = X
     WtoX(i) = W(i).x* W(i).y.* W(i).z;
     
 end
 
 %% Test for immanence
-if WtoX(j) == VtoX(j)
-    immanence = true;
-end
 
-disp(immanence)
+% Immanence: for each w that is an element of M(U) there exists a unique x
+% that is an element of N(T(U)) such that T(pre-image of M(w)) is a sub-element
+% or equal to pre-image of N(x)
+
+isSubset = all(ismember(WtoX, VtoX))
+
+% If T(M^-1(w)) is a subset of N^-1(x), then immanence is depicted
+
+disp(isSubset)
 
 %% Functions
 
