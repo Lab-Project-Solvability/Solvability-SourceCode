@@ -9,10 +9,9 @@ V = [];
 % Data points : M(u)
 W = [];
 % Array to check immanence
-WtoX = [];
-VtoX = [];
-
-immanence = false;
+UtoV = [];
+X = [];
+immanence = false; 
 
 %% Create Dataset
 
@@ -20,47 +19,92 @@ immanence = false;
 % Generation:
 shapeCollection = createImmanentDataset(100, 20);
 
-for i = 1:size(shapeCollection,2)
-   U(i) = shapeCollection(i).form; 
-   V(i) = shapeCollection(i).targetVolume;
-end
-%% Prof Theory
-
 % Get struct values that are unique
-temp = uniqueStruct(shapeCollection);
+uniqueShapes = uniqueStruct(shapeCollection);
+
+%% Prof Theory
 
 % Get bubbles
 
 % ShapeCollection.form = U
-% ShapeCollection.targetVolume = V
 
+for i = 1:size(shapeCollection,2)
+   U(i).form = shapeCollection(i).form;
+   U(i).x = shapeCollection(i).length;
+   U(i).y = shapeCollection(i).width;
+   U(i).z = shapeCollection(i).height; 
+   U(i).volume = shapeCollection(i).targetVolume;
+end
 
-for i = 1:size(temp,2)
+for i = 1:size(uniqueShapes,2)
+      
+    % M(u) = W, but only unique points would be mapped. U -> W map
+    W(i).x = uniqueShapes(i).length;
+    W(i).y = uniqueShapes(i).width;
+    W(i).z = uniqueShapes(i).height;
+    
+   
+    % ShapeCollection.targetVolume = V - unique volumes only
+    V(i) = uniqueShapes(i).targetVolume;
     
     % Since N is the identity map, V = X, but only the unique ones 
-    VtoX(i) = temp(i).targetVolume;
-    
-    % M(u) = W, but only unique points would be mapped
-    W(i).x = temp(i).length;
-    W(i).y = temp(i).width;
-    W(i).z = temp(i).height;
-    
-    % S = N(T(pre-image of M(w))) = N(T(u)) = X
-    WtoX(i) = W(i).x* W(i).y.* W(i).z;
-    
+    X(i) = V(i);
+        
 end
 
 %% Test for immanence
 
 % Immanence: for each w that is an element of M(U) there exists a unique x
-% that is an element of N(T(U)) such that T(pre-image of M(w)) is a sub-element
-% or equal to pre-image of N(x)
+% that is an element of N(T(U)) such that T(M^-1(w)) is a sub-element
+% or equal to N^-1(x)
 
-isSubset = all(ismember(WtoX, VtoX));
+% Steps: 
+% 1. Get each unique w in W find each u in U that maps to it
+% 2. Use the unique u in U to calculate V
+% 3. Iterate over all x in X and compute V from these X values
+% 4. If the V determined at 2 is a subset of the V determined from 3 =>
+% immanenece
 
-% If T(M^-1(w)) is a subset of N^-1(x), then immanence is depicted
+% 1. 
+temp = size(U, 2);
+count = 0; 
 
-disp(isSubset)
+for i = 1:size(W,2)
+    for j = 1:size(U,2)
+        if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z))
+            count = count + 1;
+        end
+    end
+end
+
+% 2.
+% The unique target volume from the shape collection is the mapping from U
+% to V. Thus the V(i) bubble can be used for comparison.
+if count == temp
+    for i = 1:size(V,2)
+        UtoV(i) = V(i);
+    end
+else
+    immanence = false;
+end
+
+%3. 
+for i = 1:size(X,2)
+    XtoV(i) = X(i);
+end
+
+%4. 
+if isSubset == all(ismember(UtoV, XtoV))
+immanence = true;
+else 
+    immanence = false;
+end
+
+
+immanence
+
+
+
 
 %% Functions
 
@@ -88,8 +132,6 @@ for i = 1:numShapes
     end
     
 end
-
-
 
 end
 
