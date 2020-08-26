@@ -1,20 +1,20 @@
 %% Immanence Testing
 
 %%  Initialisation
-shapeCollection = [];
+ImmanentData = [];
+TranscendentData = [];
 immanence = false;
 
 %% Create Dataset
 
 % Generate random numbers between 0 and 20 for the shgape dimensions and Struct
 % Generation:
-shapeCollection = createImmanentDataset(100, 20);
+ImmanentData = createImmanentDataset(100, 20);
 
-if (testImmanence(shapeCollection))
-    disp('The dataset is Immanent')
-else
-    disp('The dataset is Transcendent')
-end
+TranscendentData = createTranscendentDataset(100, 20);
+
+print(ImmanentData)
+print(TranscendentData)
 %% Functions
 
 function dataset = createImmanentDataset(numShapes, randomRange)
@@ -44,6 +44,53 @@ end
 
 end
 
+function dataset = createTranscendentDataset(numShapes, randomRange)
+shapeType = ["Rectangular Cuboid", "Cube", "Sphere", "Cylinder", "Cone"];
+
+for i = 1:numShapes
+    % Generate a random number to choose the shapeType
+    typeIdx = randi(5);
+    dataset(i).form = shapeType(typeIdx);
+    
+    if dataset(i).form == 'Rectangular Cuboid'
+        dataset(i).length = randi(randomRange);
+        dataset(i).width = randi(randomRange);
+        dataset(i).height = randi(randomRange);
+        %Volume Rectangular Prism = l * w * h
+        dataset(i).targetVolume = dataset(i).length*dataset(i).width*dataset(i).height;
+        
+    elseif dataset(i).form == 'Cube'
+        dataset(i).length = randi(randomRange);
+        dataset(i).width = dataset(i).length;
+        dataset(i).height = dataset(i).length;
+        % Volume Cube = l * w * h
+        dataset(i).targetVolume = dataset(i).length*dataset(i).width*dataset(i).height;
+        
+    elseif dataset(i).form == 'Sphere'
+        dataset(i).length = randi(randomRange);
+        dataset(i).width = dataset(i).length;
+        dataset(i).height = dataset(i).length;
+        % Volume Sphere = 4/3 * r^3 * pi
+        dataset(i).targetVolume = (dataset(i).length/2)^3*(4/3)*pi;
+        
+    elseif dataset(i).form == 'Cylinder'
+        dataset(i).length = randi(randomRange);
+        dataset(i).width = dataset(i).length;
+        dataset(i).height = randi(randomRange);
+        %Volume Cylinder = Pi * r^2 * h
+        dataset(i).targetVolume = (dataset(i).length/2)^2*dataset(i).height*pi;
+        
+    elseif dataset(i).form == 'Cone'
+        dataset(i).length = randi(randomRange);
+        dataset(i).width = dataset(i).length;
+        dataset(i).height = randi(randomRange);
+        % Volume Cone = 1/3 * pi * r^2 * h
+        dataset(i).targetVolume = (dataset(i).length/2)^2*(1/3)*pi*dataset(i).height;
+    end
+    
+end
+
+end
 % The following function is obtained and adapted from :
 %Valerio Biscione (2020). uniqueStruct (https://www.mathworks.com/matlabcentral/fileexchange/53871-uniquestruct),
 %MATLAB Central File Exchange. Retrieved August 25, 2020.
@@ -146,6 +193,7 @@ if count == temp
     end
 else
     immanence = false;
+    return
 end
 
 %3.
@@ -160,4 +208,12 @@ else
     immanence = false;
 end
 
+end
+
+function print(result)
+if (testImmanence(result))
+    disp('The dataset is Immanent')
+else
+    disp('The dataset is Transcendent')
+end
 end
