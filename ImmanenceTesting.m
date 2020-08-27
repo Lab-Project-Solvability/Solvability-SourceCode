@@ -1,20 +1,26 @@
 %% Immanence Testing
 
 %%  Initialisation
-ImmanentData = [];
-TranscendentData = [];
+ImmanentData1 = [];
+TranscendentData1 = [];
+ImmanentData2 = [];
+TranscendentData2 = [];
 immanence = false;
 
 %% Create Dataset
 
 % Generate random numbers between 0 and 20 for the shgape dimensions and Struct
 % Generation:
-ImmanentData = createImmanentDataset(100, 20);
+ImmanentData1 = createImmanentDataset(100, 20);
+TranscendentData1 = createTranscendentDataset(100, 20);
+ImmanentData2 = createImmanentDataset(150, 20);
+TranscendentData2 = createTranscendentDataset(150, 20);
 
-TranscendentData = createTranscendentDataset(100, 20);
-
-print(ImmanentData)
-print(TranscendentData)
+%% Test For Immanence or Transcendence 
+print(ImmanentData1)
+print(TranscendentData1)
+print(ImmanentData2)
+print(TranscendentData2)
 %% Functions
 
 function dataset = createImmanentDataset(numShapes, randomRange)
@@ -124,7 +130,7 @@ V = [];
 X = [];
 % Data points : M(u)
 W = [];
-% Array to check immanence
+% Mapping
 UtoV = [];
 XtoV = [];
 
@@ -132,8 +138,6 @@ XtoV = [];
 uniqueDataset = uniqueStruct(dataset);
 
 %% Get bubbles
-
-% ShapeCollection.form = U
 
 for i = 1:size(dataset,2)
     U(i).form = dataset(i).form;
@@ -160,9 +164,9 @@ end
 %% Test for immanence
 
 % Prof Theory
-% Immanence: for each w that is an element of M(U) there exists a unique x
-% that is an element of N(T(U)) such that T(M^-1(w)) is a sub-element
-% or equal to N^-1(x)
+% Immanence: for each w that is an element of M(U)= W there exists a unique x
+% that is an element of N(T(U)) such that T(M^-1(w)) = V is a sub-element
+% or equal to N^-1(x) = V
 
 % Steps:
 % 1. Get each unique w in W find each u in U that maps to it
