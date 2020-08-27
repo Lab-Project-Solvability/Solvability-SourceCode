@@ -91,7 +91,8 @@ for i = 1:numShapes
 end
 
 end
-% The following function is obtained and adapted from :
+
+%The following function is obtained and adapted from :
 %Valerio Biscione (2020). uniqueStruct (https://www.mathworks.com/matlabcentral/fileexchange/53871-uniquestruct),
 %MATLAB Central File Exchange. Retrieved August 25, 2020.
 function newStruct=uniqueStruct(oldStruct)
@@ -113,19 +114,19 @@ for i=1:numel(oldStruct)
 end
 end
 
-
 function immanence = testImmanence(dataset)
 %% Initialisation
 
-% Shapes U 
+% Shapes U
 U = [];
 % Calculated Volume : N(T(u))
 V = [];
+X = [];
 % Data points : M(u)
 W = [];
 % Array to check immanence
 UtoV = [];
-X = [];
+XtoV = [];
 
 %%  Get struct values that are unique
 uniqueDataset = uniqueStruct(dataset);
@@ -139,7 +140,6 @@ for i = 1:size(dataset,2)
     U(i).x = dataset(i).length;
     U(i).y = dataset(i).width;
     U(i).z = dataset(i).height;
-    U(i).volume = dataset(i).targetVolume;
 end
 
 for i = 1:size(uniqueDataset,2)
@@ -149,11 +149,10 @@ for i = 1:size(uniqueDataset,2)
     W(i).y = uniqueDataset(i).width;
     W(i).z = uniqueDataset(i).height;
     
-    
     % ShapeCollection.targetVolume = V - unique volumes only
     V(i) = uniqueDataset(i).targetVolume;
     
-    % Since N is the identity map, V = X, but only the unique ones
+    % Since N is the identity map, V = X
     X(i) = V(i);
     
 end
@@ -176,8 +175,8 @@ end
 temp = size(U, 2);
 count = 0;
 
-for i = 1:size(W,2)
-    for j = 1:size(U,2)
+for j = 1:size(U,2)
+    for i = 1:size(W,2)
         if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z))
             count = count + 1;
         end
@@ -202,6 +201,7 @@ for i = 1:size(X,2)
 end
 
 %4.
+% Check that T(M^-1(w)) is subset of N^-1(x)
 if (all(ismember(UtoV, XtoV)))
     immanence = true;
 else
