@@ -1,8 +1,8 @@
 %% Main Program
 
 % Create intitial datasets
-immanentDataset1 = createImmanentDataset(100,20);
-transcendentDataset1 = createTranscendentDataset(100,20);
+immanentDataset1 = createImmanentDataset(600,20);
+transcendentDataset1 = createTranscendentDataset(700,20);
 
 % Do test for immanence
 print(immanentDataset1)

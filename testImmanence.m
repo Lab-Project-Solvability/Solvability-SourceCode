@@ -26,18 +26,18 @@ for i = 1:size(dataset,2)
     U(i).z = dataset(i).height;
 end
 
-for i = 1:size(uniqueDataset,2)
+for j = 1:size(uniqueDataset,2)
     
     % M(u) = W, but only unique points would be mapped. U -> W map
-    W(i).x = uniqueDataset(i).length;
-    W(i).y = uniqueDataset(i).width;
-    W(i).z = uniqueDataset(i).height;
+    W(j).x = uniqueDataset(j).length;
+    W(j).y = uniqueDataset(j).width;
+    W(j).z = uniqueDataset(j).height;
     
     % ShapeCollection.targetVolume = V - unique volumes only
-    V(i) = uniqueDataset(i).targetVolume;
+    V(j) = uniqueDataset(j).targetVolume;
     
     % Since N is the identity map, V = X
-    X(i) = V(i);
+    X(j) = V(j);
     
 end
 
@@ -59,9 +59,9 @@ end
 temp = size(U, 2);
 count = 0;
 
-for j = 1:size(U,2)
-    for i = 1:size(W,2)
-        if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z))
+for k = 1:size(U,2)
+    for l = 1:size(W,2)
+        if ((U(k).x == W(l).x) && (U(k).y == W(l).y) && (U(k).z == W(l).z))
             count = count + 1;
         end
     end
@@ -71,8 +71,8 @@ end
 % The unique target volume from the shape collection is the mapping from U
 % to V. Thus the V(i) bubble can be used for comparison.
 if count == temp
-    for i = 1:size(V,2)
-        UtoV(i) = V(i);
+    for m = 1:size(V,2)
+        UtoV(m) = V(m);
     end
 else
     immanence = false;
@@ -80,8 +80,8 @@ else
 end
 
 %3.
-for i = 1:size(X,2)
-    XtoV(i) = X(i);
+for n = 1:size(X,2)
+    XtoV(n) = X(n);
 end
 
 %4.
