@@ -3,20 +3,20 @@
 %%  Get the data
 
 % Create intitial datasets
-immanentDataset = createImmanentDataset(1300,20);
+immanentDataset = createImmanentDataset(1600,20);
 
 % Do test for immanence
 if (testImmanence(immanentDataset))
     inputs = [immanentDataset.length; immanentDataset.width; immanentDataset.height];
     targets = [immanentDataset.targetVolume];
 
-    net = feedforwardnet([3,3,3], 'trainlm')
+    net = feedforwardnet([3,2,2], 'trainlm')
     
     % Choose the ReLU activation function : 'poslin'
     % Choose the sigmoid activation function : 'logsig'
-    net.layers{1}.transferFcn = 'logsig' 
-    net.layers{2}.transferFcn = 'logsig' 
-    net.layers{3}.transferFcn = 'logsig' 
+    net.layers{1}.transferFcn = 'poslin' 
+    net.layers{2}.transferFcn = 'poslin' 
+    net.layers{3}.transferFcn = 'poslin' 
     
     [net, tr] = train(net, inputs, targets);
     
