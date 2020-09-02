@@ -12,19 +12,21 @@
 
 % Get and test the randomised dataset 
 
-% immanentDatasetOpt = createImmanentDataset(2000,20);
-% print(immanentDatasetOpt)
-% writetable(struct2table(immanentDatasetOpt), 'trainingData.xlsx')
+% transcendentDataset = createTranscendentDataset(2000,20);
+% print(transcendentDataset)
+% writetable(struct2table(transcendentDataset), 'transcendentDataset1.xlsx')
+
 
 %% Dataset Loading
+
 % Read in the same training data
 % x = inputs;
 % t = targets;
 
-data = table2struct( readtable('trainingData.xlsx') )
-
-x = [data.length; data.width; data.height];
-t = [data.targetVolume];
+% data = table2struct( readtable('testingDataLargerNumbers.xlsx') )
+%  
+% x = [data.length; data.width; data.height];
+% t = [data.targetVolume];
 
 %% NN Training
 
@@ -33,22 +35,28 @@ t = [data.targetVolume];
 % 'trainlm' is usually fastest.
 % 'trainbr' takes longer but may be better for challenging problems.
 % 'trainscg' uses less memory. Suitable in low memory situations.
+
+% Uncomment this line to train the NN
 % trainFcn = 'trainbr';  
-% 
+
 % Create a Fitting Network
+% Uncomment these lines to trian the NN
 % hiddenLayerSize = [10,10];
 % net = fitnet(hiddenLayerSize,trainFcn);
-% 
-% % Setup Division of Data for Training, Validation, Testing
+
+% Setup Division of Data for Training, Validation, Testing
+% Uncomment these lines to train the NN
 % net.divideParam.trainRatio = 70/100;
 % net.divideParam.valRatio = 15/100;
 % net.divideParam.testRatio = 15/100;
-% 
-% % Choose activation functions for each layer
+
+% Choose activation functions for each layer
+% Uncomment these lines to trian the NN
 % net.layers{1}.transferFcn = 'logsig'
 % net.layers{2}.transferFcn = 'logsig'
-%     
-% % Train the Network
+   
+% Train the Network
+% Uncomment this line to trian the NN
 % [net,tr] = train(net,x,t);
 
 %% NN Loading
@@ -60,18 +68,16 @@ net = trainedNet;
 y = net(x);
 e = gsubtract(t,y);
 performance = perform(net,t,y)
-testOutput = net(x);
-meanSquaredError = mse(net,t,testOutput)
 
 % View the Network
 view(net)
 
 % Save the trained NN
+% Uncomment these lines to save the new NN
 % trainedNet = net; 
 % save trainedNet;
 
 % Plots
-% Uncomment these lines to enable various plots.
 figure, plotperform(tr)
 figure, plottrainstate(tr)
 figure, ploterrhist(e)
