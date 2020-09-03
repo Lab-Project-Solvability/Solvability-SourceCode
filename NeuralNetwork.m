@@ -10,12 +10,18 @@
 
 %% Dataset Generation
 
-% Get and test the randomised dataset 
+% Generate and test the randomised dataset 
+% For immanent data uncomment the lines below: 
+% immanentDataset = createImmanentDataset(1000,20);
+% if (testImmanence(immanentDataset))
+%     writetable(struct2table(immanentDataset), 'testingImmanentData.xlsx')
+% end
 
-% transcendentDataset = createTranscendentDataset(2000,20);
-% print(transcendentDataset)
-% writetable(struct2table(transcendentDataset), 'transcendentDataset1.xlsx')
-
+% For transcendent data uncomment the lines below: 
+% transcendentDataset = createTranscendentDataset(4000,20);
+% if not((testImmanence(immanentDataset)))
+%     writetable(struct2table(transcendentDataset), 'transcendentDataset2.xlsx')
+% end
 
 %% Dataset Loading
 
@@ -23,10 +29,11 @@
 % x = inputs;
 % t = targets;
 
-% data = table2struct( readtable('testingDataLargerNumbers.xlsx') )
-%  
-% x = [data.length; data.width; data.height];
-% t = [data.targetVolume];
+% Uncomment the below code when you want to already have the data generated
+data1 = table2struct(readtable('testingImmanentData.xlsx'));
+ 
+x1 = [data1.length; data1.width; data1.height];
+t1 = [data1.targetVolume];
 
 %% NN Training
 
@@ -65,22 +72,22 @@ load trainedNet
 net = trainedNet; 
 
 % Test the Network
-y = net(x);
-e = gsubtract(t,y);
-performance = perform(net,t,y)
+y = net(x1);
+e = gsubtract(t1,y);
+performance = perform(net,t1,y)
 
 % View the Network
 view(net)
 
 % Save the trained NN
-% Uncomment these lines to save the new NN
+% Uncomment these lines to save a new NN
 % trainedNet = net; 
 % save trainedNet;
 
 % Plots
-figure, plotperform(tr)
-figure, plottrainstate(tr)
-figure, ploterrhist(e)
-figure, plotregression(t,y)
-figure, plotfit(net,x,t)
+% figure, plotperform(tr)
+% figure, plottrainstate(tr)
+% figure, ploterrhist(e)
+% figure, plotregression(t,y)
+% figure, plotfit(net,x,t)
 
