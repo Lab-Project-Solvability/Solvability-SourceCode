@@ -4,9 +4,10 @@
 % 30/03/1993
 
 function prompt(text)
-disp(text)
-disp('\n\n')
-disp('\nPress any key to continue')
+fprintf('\n\n')
+fprintf(text)
+fprintf('\n\n')
+fprintf('\nPress any key to continue')
 pause
-disp('\n\n')
+fprintf('\n\n')
 end

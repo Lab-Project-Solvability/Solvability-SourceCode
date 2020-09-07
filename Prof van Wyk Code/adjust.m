@@ -17,6 +17,6 @@
 function wo = adjust(wi, p, mu)
 
 v = p/norm(p);
-wo = wi - mu*(wi.*v)*v;
+wo = wi - mu.*(wi.*v).*v;
 
 end

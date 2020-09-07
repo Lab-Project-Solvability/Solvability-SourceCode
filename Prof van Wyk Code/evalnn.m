@@ -15,7 +15,7 @@ for i = 1:Np
    [ans ans o4] = classifier(W4, P(i,:).'); 
    o4 = floor((o4+1)/2);
    
-   disp('Input Pattern P ', i-1)
-   disp('Classification ', o1, o2)
-   disp(o3, o4)
+   fprintf('Input Pattern P %g:\n', i-1)
+   fprintf('Classification %g:\n', o1, o2)
+   fprintf('%g%g\n',o3, o4);
 end

@@ -5,28 +5,28 @@
 
 defines; 
 
-disp('Classifier 1: ')
-[W1,s] = trainClassifier(P, A(:,1),100, 5, 1.6); 
+fprintf('Classifier 1: ')
+[W1,s] = trainClassifier(P, A(:,1),100, 5, 1.5); 
 if s > 1
-    disp('Could not train the classifier 1'); 
+    fprintf('Could not train the classifier 1'); 
 end
 
-disp('Classifier 2: ')
-[W2,s] = trainClassifier(P, A(:,2),100, 5, 1.6); 
+fprintf('Classifier 2: ')
+[W2,s] = trainClassifier(P, A(:,2),100, 5, 1.5); 
 if s > 1
-    disp('Could not train the classifier 2'); 
+    fprintf('Could not train the classifier 2'); 
 end
 
-disp('Classifier 3: ')
-[W3,s] = trainClassifier(P, A(:,3),100, 5, 1.6); 
+fprintf('Classifier 3: ')
+[W3,s] = trainClassifier(P, A(:,3),100, 5, 1.5); 
 if s > 1
-    disp('Could not train the classifier 3'); 
+    fprintf('Could not train the classifier 3'); 
 end
 
-disp('Classifier 4: ')
-[W4,s] = trainClassifier(P, A(:,1),100, 5, 1.6); 
+fprintf('Classifier 4: ')
+[W4,s] = trainClassifier(P, A(:,4),100, 5, 1.5); 
 if s > 1
-    disp('Could not train the classifier 4'); 
+    fprintf('Could not train the classifier 4'); 
 end
 
 save nnparams P A W1 W2 W3 W4

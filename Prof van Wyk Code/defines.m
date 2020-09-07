@@ -7,69 +7,35 @@
 
 % 5 x 4 dot matrices
 
-one = [ 0 1 0 0  
-        1 1 0 0  
-        0 1 0 0  
-        0 1 0 0  
-        1 1 1 0];
+one = [ 0 1 0 0 1 1 0 0 0 1 0 0 0 1 0 0 1 1 1 0];
     
-two = [ 0 1 1 0  
-        1 0 0 1  
-        0 0 1 0  
-        0 1 0 0  
-        1 1 1 1];
+two = [ 0 1 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 1 1 1];
     
-three = [ 1 1 1 0  
-          0 0 0 1  
-          0 1 1 0  
-          0 0 0 1  
-          1 1 1 0];
+three = [ 1 1 1 0 0 0 0 1 0 1 1 0 0 0 0 1 1 1 1 0];
 
-four = [ 1 0 0 0 
-         1 0 1 0 
-         1 1 1 1 
-         0 0 1 0 
-         0 0 1 0];
+four = [ 1 0 0 0 1 0 1 0 1 1 1 1 0 0 1 0 0 0 1 0];
 
-five = [ 1 1 1 1 
-         1 0 0 0 
-         1 1 1 0 
-         0 0 0 1 
-         1 1 1 0];
+five = [ 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 1 0];
      
-six = [ 0 1 1 1 
-        1 0 0 0 
-        1 1 1 0 
-        1 0 0 1 
-        0 1 1 0];
+six = [ 0 1 1 1 1 0 0 0 1 1 1 0 1 0 0 1 0 1 1 0];
     
-seven = [ 1 1 1 1
-          0 0 0 1 
-          0 0 1 0 
-          0 1 0 0 
-          0 1 0 0];
+seven = [ 1 1 1 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0];
       
-eight = [ 0 1 1 0 
-          1 0 0 1 
-          0 1 1 0 
-          0 0 0 0 
-          0 1 1 0];
+eight = [ 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0];
 
-nine = [ 0 1 1 0 
-         1 0 0 1 
-         0 1 1 1 
-         0 0 0 1 
-         1 1 1 0];
+nine = [ 0 1 1 0 1 0 0 1 0 1 1 1 0 0 0 1 1 1 1 0];
 
-zero = [ 0 1 1 0 
-         1 0 0 1 
-         1 0 0 1 
-         1 0 0 1 
-         0 1 1 0];
+zero = [ 0 1 1 0 1 0 0 1 1 0 0 1 1 0 0 1 0 1 1 0];
      
 threshold = 1; 
 
-%% Problem here
+%%%%%%%%
+
+% data = table2struct(readtable('immanentTrainingData.xlsx'));
+%  
+% P = [data.length; data.width; data.height];
+% A = [data.targetVolume];
+
 P = [[zero,  threshold]
      [one,   threshold]
      [two,   threshold]
@@ -79,10 +45,10 @@ P = [[zero,  threshold]
      [six,   threshold]
      [seven, threshold]
      [eight, threshold]
-     [nine,  threshold]]
+     [nine,  threshold]];
  
  %% 
- clear one two three four five six seven eight nine zero
+clear one two three four five six seven eight nine zero
  
  % Neural Network Ouput Definition
  

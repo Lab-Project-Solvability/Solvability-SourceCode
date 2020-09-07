@@ -18,7 +18,7 @@
 
 function [W,s] = trainClassifier(P, a, Nt, Nr, mu)
 Nn = 5; 
-rand('normal'); 
+randn('seed',0);
 [Np, Ni] = size(P)
 s = 0;
 cr = 0;
@@ -26,15 +26,15 @@ cr = 0;
 while (s~=1) && (cr < Nr)
     cr = cr + 1; 
     if cr ==1
-        disp('Run', cr); 
+        fprintf('Run %g:\n', cr); 
     else
-        disp('Rerun', cr); 
+        fprintf('Rerun %g:\n', cr); 
     end
     ct = 0; 
     W = rand(Nn,Ni); 
     while (s~=1) & (ct < Nt)
         ct = ct + 1; 
-        disp('Trial', ct)
+        fprintf('Trial %g:\n', ct)
         
         % Perform 1 training trial
         for i = 1:Np
@@ -62,7 +62,7 @@ while (s~=1) && (cr < Nr)
             end 
         end
         
-        disp('Bad Classifications: ', s-1)
+        fprintf('Bad Classifications: %g:\n', s-1)
         
     end
 end
