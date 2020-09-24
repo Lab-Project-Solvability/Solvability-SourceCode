@@ -4,22 +4,25 @@
 
 from csv import reader
 import numpy as np
+from numpy import savetxt
+from numpy import loadtxt
+import pandas as pd
 
 # Read in the dataset
-def loadCsv(filename):
-    dataset = list()
-    with open(filename, 'r') as file:
-        csvReader = reader(file, delimiter=';')
-        for row in csvReader:
-            if not row:
-                continue
-            dataset.append(row)
-    return dataset
+# def loadCsv(filename):
+#     dataset = list()
+#     with open(filename, 'r') as file:
+#         csvReader = reader(file, delimiter=';')
+#         for row in csvReader:
+#             if not row:
+#                 continue
+#             dataset.append(row)
+#     return dataset
 
-# Convert strings to float
-def strToFloat(dataset, column):
-    for row in dataset:
-        row[column] = float(row[column].strip())   
+# # Convert strings to float
+# def strToFloat(dataset, column):
+#     for row in dataset:
+#         row[column] = float(row[column].strip())   
 
 class Neural_Network(object):
   def __init__(self):
@@ -31,6 +34,7 @@ class Neural_Network(object):
     
     #weights
     #rows x columns
+    np.random.seed ()
     self.W1 = np.random.randn(self.inputSize, self.hiddenNodes) # (3x4) weight matrix from input to hidden layer
     self.W2 = np.random.randn(self.hiddenNodes, self.hiddenNodes) # (4x4) weight matric from hidden to hidden
     self.W3 = np.random.randn(self.hiddenNodes, self.outputSize) # (4x1) weight matrix from hidden to output layer
@@ -54,7 +58,7 @@ class Neural_Network(object):
     return s * (1 - s)
 
   def backward(self, x, y, o):
-        # backward propgate through the network
+      # backward propgate through the network
     self.o_error = y - o # error in output
     self.o_delta = self.o_error*self.sigmoidPrime(o) # applying derivative of sigmoid to error
 
@@ -80,47 +84,66 @@ class Neural_Network(object):
 
 # Data
 
-# Read in and modify the data
-# Access the dataset
-filename = 'immanentTrainingData.csv'
-dataset = loadCsv(filename)
+# # Read in and modify the data
+# # Access the dataset
+# filename = 'immanentTrainingData.csv'
+# dataset = loadCsv(filename)
 
-# Convert columns with numbers from string to float
-# Columns 2, 3, 4 and 5 have numbers. 
-# Columns 2, 3 and 4 is the lenght, width and height of the object
-# Column 5 contains the target volume
-# Note that Python is 0-indexed
-for x in range(1,5):
-    strToFloat(dataset, x)
+# # data_frame = pd.read_csv(filename, sep =';')
 
-# Access the input and target volume columns
-inputs = []
-targetVolumes = []
-for row in dataset:
-    inputs.append(row[1:4])
-    targetVolumes.append(row[4])
+# # Convert columns with numbers from string to float
+# # Columns 2, 3, 4 and 5 have numbers. 
+# # Columns 2, 3 and 4 is the lenght, width and height of the object
+# # Column 5 contains the target volume
+# # Note that Python is 0-indexed
+# for x in range(1,5):
+#     strToFloat(dataset, x)
 
-# Transform the dataset
-# Convert data to numpy arrays
-# 2000 x 3
-inputs = np.array(inputs, dtype=float )
-# 2000 x 1
-targetVolumes  = np.array(targetVolumes, dtype=float)
+# # Access the input and target volume columns
+# inputs = []
+# targetVolumes = []
+# for row in dataset:
+#     inputs.append(row[1:4])
+#     targetVolumes.append(row[4])
 
-# Transpose the data for the class functions
-# Make inputs 3 x 2000
-x = inputs
-# Make output 2000 x 1
-y = targetVolumes.reshape(-1,1)
+# # Transform the dataset
+# # Convert data to numpy arrays
+# # 2000 x 3
+# inputs = np.array(inputs, dtype=float )
+# # 2000 x 1
+# targetVolumes  = np.array(targetVolumes, dtype=float)
+
+# # Transpose the data for the class functions
+# # Make inputs 3 x 2000
+# x = inputs
+# # Make output 2000 x 1
+# y = targetVolumes.reshape(-1,1)
+
+# x = np.random.randint(1,21, size=(100,3))
+# y = np.empty(shape=(np.size(x, axis = 0),1))
+# for i in range(np.size(x, axis = 0)):
+#   y[i] = np.array(x[i][0]*x[i][1]*x[i][2])
+
+# save to csv file
+# savetxt('subsetInputData.csv', x, delimiter=',')
+# savetxt('subsetOutputData.csv', y, delimiter=',')
+
+# load from csv file
+x = loadtxt('subsetInputData.csv', delimiter=',')
+y = loadtxt('subsetOutputData.csv', delimiter=',').reshape(-1, 1)
+
+# Dataset for NN evaluation
+# x = np.array(([3, 3, 3], [2, 3, 4], [10, 10, 10], [5, 11, 6], [12, 15, 16], [4, 13, 9], [4, 1, 14], [4, 7, 19], [3, 3, 3], [2, 5, 4], [10, 11, 11]), dtype=float)
+# y = np.array(([27], [24], [1000], [330], [2880], [468], [56], [532], [27], [40], [1210] ), dtype=float)
 
 # scale units
-x = x/10000 #np.amax(x, axis=0) # maximum of x array
-y = y/10000 #np.amax(y, axis=0) # maximum of y array
+x = x/np.amax(x, axis=0) # maximum of x array
+y = y/np.amax(y, axis=0) # maximum of y array
 
 NN = Neural_Network()
 
 # Set values for NN training and architecture
-numEpochs = 500
+numEpochs = 400
 numIn = 3
 numOut = 1
 numHiddenLayers = 2
@@ -131,6 +154,8 @@ for i in range(numEpochs): # trains the NN numEpoch times
     print ('Input:', x) 
     print ('Actual Output:', y)
     print ('Predicted Output:', NN.forward(x)) 
-    print('Loss:', np.mean(np.square(y - NN.forward(x)))) 
-    print('Epoch:', i)
+    print ('Maximum Error:', abs(max(y - NN.forward(x))))
+    print ('Relative Error:', abs(NN.forward(x)-y)/y)
+    print ('MSE:', np.mean(np.square(y - NN.forward(x)))) 
+    print ('Epoch:', i)
     NN.train(x, y)

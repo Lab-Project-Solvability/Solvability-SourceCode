@@ -88,6 +88,12 @@ def get_cost_value(Y_hat, Y):
     cost = -1 / m * (np.dot(Y, np.log(Y_hat).T) + np.dot(1 - Y, np.log(1 - Y_hat).T))
     return np.squeeze(cost)
 
+def convert_prob_into_class(AL):
+    pred = np.copy(AL)
+    pred[AL > 0.5]  = 1
+    pred[AL <= 0.5] = 0
+    return pred
+
 
 def get_accuracy_value(Y_hat, Y):
     Y_hat_ = convert_prob_into_class(Y_hat)
@@ -114,7 +120,7 @@ def single_layer_backward_propagation(dA_curr, W_curr, b_curr, Z_curr, A_prev, a
 
 def full_backward_propagation(Y_hat, Y, memory, params_values, nn_architecture):
     grads_values = {}
-    m = Y.shape[1]
+    m =  Y.shape[0]
     Y = Y.reshape(Y_hat.shape)
    
     dA_prev = - (np.divide(Y, Y_hat) - np.divide(1 - Y, 1 - Y_hat));
@@ -207,13 +213,13 @@ arr_input_2 = column_input_2.to_numpy()
 arr_input_3 = column_input_3.to_numpy()
 arr_output = column_output.to_numpy()
 
-input_array = [arr_input_1, arr_input_2, arr_input_3]
+input_array = np.array([arr_input_1, arr_input_2, arr_input_3])
 
 
-print(arr_output)
+#print(input_array.T)
 
-#argument_1, argument_2, argument_3 = train(input,output,nn_architecture,1000,0.5000)
+argument_1, argument_2, argument_3 = train(input_array,arr_output,nn_architecture,1000,0.5000)
  
-# print(argument_1)
-# print(argument_2)
-# print(argument_3)
+print(argument_1)
+print(argument_2)
+print(argument_3)
