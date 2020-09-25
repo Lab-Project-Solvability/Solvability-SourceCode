@@ -30,7 +30,7 @@
 % t = targets;
 
 % Uncomment the below code when you want to already have the data generated
-data1 = table2struct(readtable('transcendentDataset1.xlsx'));
+data1 = table2struct(readtable('testingImmanentData.xlsx'));
  
 x1 = [data1.length; data1.width; data1.height];
 t1 = [data1.targetVolume];
