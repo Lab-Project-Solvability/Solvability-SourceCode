@@ -15,7 +15,9 @@ for i=1:numel(oldStruct)
         if isequaln(temp, newStruct(j))
             skipFlag=1;
             % ((temp.form ~= newStruct(j).form) && (temp.length == newStruct(j).length) && (temp.width == newStruct(j).width) && (temp.height == newStruct(j).height) && (temp.targetVolume == newStruct(j).targetVolume))
-        elseif((~isequal(temp.form, newStruct(j).form)) && (isequal(temp.length, newStruct(j).length)) && (isequal(temp.width, newStruct(j).width)) && (isequal(temp.height, newStruct(j).height)) && (isequal(temp.targetVolume, newStruct(j).targetVolume)))
+        elseif((~isequal(temp.form, newStruct(j).form)) && (isequal(temp.length, newStruct(j).length)) && ...
+                (isequal(temp.width, newStruct(j).width)) && (isequal(temp.height, newStruct(j).height)) && ...
+                (isequal(temp.targetVolume, newStruct(j).targetVolume)))
             skipFlag = 1;
         end
     end

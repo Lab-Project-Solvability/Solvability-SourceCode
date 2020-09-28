@@ -8,18 +8,18 @@
 %   inputs - input data.
 %   targets - target data.
 
-%% Dataset Generation
-
+% % Dataset Generation
+% 
 % Generate and test the randomised dataset 
 % For immanent data uncomment the lines below: 
 % immanentDataset = createImmanentDataset(1000,20);
 % if (testImmanence(immanentDataset))
 %     writetable(struct2table(immanentDataset), 'testingImmanentData.xlsx')
 % end
-
+% 
 % For transcendent data uncomment the lines below: 
-% transcendentDataset = createTranscendentDataset(4000,20);
-% if not((testImmanence(immanentDataset)))
+% transcendentDataset = createTranscendentDataset(1000,20);
+% if not((testImmanence(transcendentDataset)))
 %     writetable(struct2table(transcendentDataset), 'transcendentDataset2.xlsx')
 % end
 
@@ -30,10 +30,10 @@
 % t = targets;
 
 % Uncomment the below code when you want to already have the data generated
-data1 = table2struct(readtable('transcendentDataset1.xlsx'));
+data6 = table2struct(readtable('objectPixelLength.xlsx'));
  
-x1 = [data1.length; data1.width; data1.height];
-t1 = [data1.targetVolume];
+x1 = [data6.lengthAbove; data6.widthAbove; data6.heightAbove];
+t1 = [data6.upperVolume];
 
 %% NN Training
 
@@ -76,7 +76,7 @@ y = net(x1);
 e = gsubtract(t1,y);
 performance = perform(net,t1,y)
 
-xlswrite('transcendentDataset1.xlsx',y', 1 , 'F2')
+xlswrite('objectPixelLength.xlsx',y', 1 , 'R2')
 
 % View the Network
 view(net)

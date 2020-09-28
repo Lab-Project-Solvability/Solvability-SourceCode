@@ -2,8 +2,7 @@
 
 data = table2struct(readtable('transcendentDataset-AddedFeatures.xlsx')).';
 
-% data = createImmanentDataset(100,20)
-testImmanenceTrans(data)
+testImmanence(data)
 
 %% Function to test for Immanence according to Prof's theory
 
@@ -22,7 +21,7 @@ UtoV = [];
 XtoV = [];
 
 %%  Get struct values that are unique
-uniqueDataset = uniqueStructTrans(dataset);
+uniqueDataset = uniqueStructTrans(dataset)
 
 %% Get bubbles
 
@@ -32,6 +31,9 @@ for i = 1:size(dataset,2)
     U(i).x = dataset(i).length;
     U(i).y = dataset(i).width;
     U(i).z = dataset(i).height;
+    U(i).v1 = dataset(i).x_axis; 
+    U(i).v2 = dataset(i).y_axis; 
+    U(i).v3 = dataset(i).z_axis; 
 end
 
 for i = 1:size(uniqueDataset,2)
@@ -40,9 +42,12 @@ for i = 1:size(uniqueDataset,2)
     W(i).x = uniqueDataset(i).length;
     W(i).y = uniqueDataset(i).width;
     W(i).z = uniqueDataset(i).height;
+    W(i).v1 = uniqueDataset(i).x_axis; 
+    W(i).v2 = uniqueDataset(i).y_axis; 
+    W(i).v3 = uniqueDataset(i).z_axis; 
     
     % ShapeCollection.targetVolume = V - unique volumes only
-    V(i) = uniqueDataset(i).newOutput;
+    V(i) = uniqueDataset(i).targetVolume;
     
     % Since N is the identity map, V = X
     X(i) = V(i);
@@ -69,8 +74,9 @@ count = 0;
 
 for j = 1:size(U,2)
     for i = 1:size(W,2)
-        if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z))
-            count = count + 1;
+        if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z) && ...
+            (U(j).v1 == W(i).v1) && (U(j).v2 == W(i).v2) && (U(j).v3 == W(i).v3))
+            count = count + 1; 
         end
     end
 end

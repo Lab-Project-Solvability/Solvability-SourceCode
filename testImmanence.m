@@ -1,4 +1,6 @@
 %% Function to test for Immanence according to Prof's theory
+% Returns 1 if immanent
+% Returns 0 if transcendent
 
 function immanence = testImmanence(dataset)
 %% Initialisation
