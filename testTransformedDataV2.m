@@ -1,8 +1,17 @@
+%% Test Immanence on transformed datasets
+clear
+
+data = table2struct(readtable('transcendentDataset-AddedFeatures_v2.xlsx')).';
+
+%data = createImmanentDataset(1000, 10);
+
+testImmanenceTransformedV2(data)
+
 %% Function to test for Immanence according to Prof's theory
 % Returns 1 if immanent
 % Returns 0 if transcendent
 
-function immanence = testImmanence(dataset)
+function immanence = testImmanenceTransformedV2(dataset)
 %% Initialisation
 
 % Shapes U
@@ -17,7 +26,7 @@ UtoV = [];
 XtoV = [];
 
 %%  Get struct values that are unique
-uniqueDataset = uniqueStruct(dataset);
+uniqueDataset = uniqueStructTransV2(dataset);
 
 %% Get bubbles
 
@@ -26,6 +35,8 @@ for i = 1:size(dataset,2)
     U(i).x = dataset(i).length;
     U(i).y = dataset(i).width;
     U(i).z = dataset(i).height;
+    U(i).f1 = dataset(i).number_sides; 
+   
 end
 
 for i = 1:size(uniqueDataset,2)
@@ -34,6 +45,8 @@ for i = 1:size(uniqueDataset,2)
     W(i).x = uniqueDataset(i).length;
     W(i).y = uniqueDataset(i).width;
     W(i).z = uniqueDataset(i).height;
+    W(i).f1 = uniqueDataset(i).number_sides; 
+  
     
     % ShapeCollection.targetVolume = V - unique volumes only
     V(i) = uniqueDataset(i).targetVolume;
@@ -63,7 +76,8 @@ count = 0;
 
 for j = 1:size(U,2)
     for i = 1:size(W,2)
-        if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z))
+        if ((U(j).x == W(i).x) && (U(j).y == W(i).y) && (U(j).z == W(i).z) && ...
+            (U(j).f1 == W(i).f1))
             count = count + 1;
         end
     end
