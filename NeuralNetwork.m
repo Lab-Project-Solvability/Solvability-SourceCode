@@ -30,10 +30,10 @@
 % t = targets;
 
 % Uncomment the below code when you want to already have the data generated
-data6 = table2struct(readtable('objectPixelLength.xlsx'));
+data6 = table2struct(readtable('Physical_Transformed_v2.xlsx'));
  
-x1 = [data6.lengthAbove; data6.widthAbove; data6.heightAbove];
-t1 = [data6.upperVolume];
+x = [data6.length; data6.width; data6.height; data6.num_sides];
+t = [data6.targetVolume];
 
 %% NN Training
 
@@ -44,47 +44,47 @@ t1 = [data6.upperVolume];
 % 'trainscg' uses less memory. Suitable in low memory situations.
 
 % Uncomment this line to train the NN
-% trainFcn = 'trainbr';  
+ trainFcn = 'trainbr';  
 
 % Create a Fitting Network
 % Uncomment these lines to trian the NN
-% hiddenLayerSize = [10,10];
-% net = fitnet(hiddenLayerSize,trainFcn);
+ hiddenLayerSize = [10,10];
+ net = fitnet(hiddenLayerSize,trainFcn);
 
 % Setup Division of Data for Training, Validation, Testing
 % Uncomment these lines to train the NN
-% net.divideParam.trainRatio = 70/100;
-% net.divideParam.valRatio = 15/100;
-% net.divideParam.testRatio = 15/100;
+ net.divideParam.trainRatio = 70/100;
+ net.divideParam.valRatio = 15/100;
+ net.divideParam.testRatio = 15/100;
 
 % Choose activation functions for each layer
 % Uncomment these lines to trian the NN
-% net.layers{1}.transferFcn = 'logsig'
-% net.layers{2}.transferFcn = 'logsig'
+ net.layers{1}.transferFcn = 'logsig'
+ net.layers{2}.transferFcn = 'logsig'
    
 % Train the Network
 % Uncomment this line to trian the NN
-% [net,tr] = train(net,x,t);
+ [net,tr] = train(net,x,t);
 
 %% NN Loading
 
-load trainedNet
-net = trainedNet; 
+%load trainedNet
+%net = trainedNet; 
 
 % Test the Network
-y = net(x1);
-e = gsubtract(t1,y);
-performance = perform(net,t1,y)
+y = net(x);
+e = gsubtract(t,y);
+performance = perform(net,t,y)
 
-xlswrite('objectPixelLength.xlsx',y', 1 , 'R2')
+xlswrite('Physical_Transformed_v2.xlsx',y', 1 , 'G2')
 
 % View the Network
 view(net)
 
 % Save the trained NN
 % Uncomment these lines to save a new NN
-% trainedNet = net; 
-% save trainedNet;
+ Physical_data_v2 = net; 
+ save Physical_data_v2;
 
 % Plots
 % figure, plotperform(tr)

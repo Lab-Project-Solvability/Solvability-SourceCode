@@ -1,7 +1,7 @@
 %% Test Immanence on transformed datasets
 clear
 
-data = table2struct(readtable('transcendentDataset-AddedFeatures_v2.xlsx')).';
+data = table2struct(readtable('Physical_Transformed_v2.xlsx')).';
 
 %data = createImmanentDataset(1000, 10);
 
